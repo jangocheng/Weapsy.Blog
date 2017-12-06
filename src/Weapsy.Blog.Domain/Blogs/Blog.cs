@@ -16,11 +16,7 @@ namespace Weapsy.Blog.Domain.Blogs
         public Blog(CreateBlog command, IValidator<CreateBlog> validator) : base(command.AggregateRootId)
         {
             validator.Validate(command);
-
-            Events.Add(command.ToEvent());
-            Apply(command.ToEvent());
-
-            //AddEvent(command.ToEvent());
+            AddEvent(command.ToEvent());
         }
 
         public void Update(UpdateBlog command, IValidator<UpdateBlog> validator)
