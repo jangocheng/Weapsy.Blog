@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weapsy.Blog.Web", "src\Weapsy.Blog.Web\Weapsy.Blog.Web.csproj", "{2AE721A3-328D-4330-95A5-72BCFD6A6EF9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weapsy.Blog.Domain", "src\Weapsy.Blog.Domain\Weapsy.Blog.Domain.csproj", "{288979A0-4519-4902-B55E-A78D4D7E3ECB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weapsy.Blog.Reporting", "src\Weapsy.Blog.Reporting\Weapsy.Blog.Reporting.csproj", "{E21ABA9A-7BC5-4E2A-8A2F-D8314A30BEE3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{194DABAB-B907-4467-853A-58913C29BC81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weapsy.Blog.Data.EF", "src\Weapsy.Blog.Data.EF\Weapsy.Blog.Data.EF.csproj", "{B2C13616-BC40-464F-8565-169E2D673664}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{2C53E047-4B15-4A91-9BC2-87F7DC1EE1FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weapsy.Blog.Domain.Tests", "test\Weapsy.Blog.Domain.Tests\Weapsy.Blog.Domain.Tests.csproj", "{CCF1D443-9B6D-4B9F-9150-38ED0E762316}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2AE721A3-328D-4330-95A5-72BCFD6A6EF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AE721A3-328D-4330-95A5-72BCFD6A6EF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AE721A3-328D-4330-95A5-72BCFD6A6EF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AE721A3-328D-4330-95A5-72BCFD6A6EF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{288979A0-4519-4902-B55E-A78D4D7E3ECB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{288979A0-4519-4902-B55E-A78D4D7E3ECB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{288979A0-4519-4902-B55E-A78D4D7E3ECB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{288979A0-4519-4902-B55E-A78D4D7E3ECB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E21ABA9A-7BC5-4E2A-8A2F-D8314A30BEE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E21ABA9A-7BC5-4E2A-8A2F-D8314A30BEE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E21ABA9A-7BC5-4E2A-8A2F-D8314A30BEE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E21ABA9A-7BC5-4E2A-8A2F-D8314A30BEE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2C13616-BC40-464F-8565-169E2D673664}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2C13616-BC40-464F-8565-169E2D673664}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2C13616-BC40-464F-8565-169E2D673664}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2C13616-BC40-464F-8565-169E2D673664}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCF1D443-9B6D-4B9F-9150-38ED0E762316}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCF1D443-9B6D-4B9F-9150-38ED0E762316}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCF1D443-9B6D-4B9F-9150-38ED0E762316}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCF1D443-9B6D-4B9F-9150-38ED0E762316}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2AE721A3-328D-4330-95A5-72BCFD6A6EF9} = {194DABAB-B907-4467-853A-58913C29BC81}
+		{288979A0-4519-4902-B55E-A78D4D7E3ECB} = {194DABAB-B907-4467-853A-58913C29BC81}
+		{E21ABA9A-7BC5-4E2A-8A2F-D8314A30BEE3} = {194DABAB-B907-4467-853A-58913C29BC81}
+		{B2C13616-BC40-464F-8565-169E2D673664} = {194DABAB-B907-4467-853A-58913C29BC81}
+		{CCF1D443-9B6D-4B9F-9150-38ED0E762316} = {2C53E047-4B15-4A91-9BC2-87F7DC1EE1FB}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {227C8859-4833-4D83-BD84-D031E3DFF943}
+	EndGlobalSection
+EndGlobal

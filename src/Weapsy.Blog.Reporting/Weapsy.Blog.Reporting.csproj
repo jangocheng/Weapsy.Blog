@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Weapsy.Blog.Domain\Weapsy.Blog.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Weapsy.Mediator">
+      <HintPath>..\..\..\..\weapsy.mediator\repository\src\Weapsy.Mediator.EventStore.EF\bin\Debug\netcoreapp2.0\Weapsy.Mediator.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

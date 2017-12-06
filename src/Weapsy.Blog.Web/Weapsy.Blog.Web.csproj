@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <UserSecretsId>aspnet-Weapsy.Blog.Web-DF509BAD-736A-4099-884B-F10EE8F27987</UserSecretsId>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.2.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.1" PrivateAssets="All" />
+    <PackageReference Include="Scrutor" Version="2.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Weapsy.Blog.Data.EF\Weapsy.Blog.Data.EF.csproj" />
+    <ProjectReference Include="..\Weapsy.Blog.Domain\Weapsy.Blog.Domain.csproj" />
+    <ProjectReference Include="..\Weapsy.Blog.Reporting\Weapsy.Blog.Reporting.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ReflectionMagic">
+      <HintPath>..\..\..\..\..\..\..\.nuget\packages\reflectionmagic\3.1.0\lib\netstandard2.0\ReflectionMagic.dll</HintPath>
+    </Reference>
+    <Reference Include="Weapsy.Mediator">
+      <HintPath>..\..\..\..\weapsy.mediator\repository\src\Weapsy.Mediator.EventStore.EF\bin\Debug\netcoreapp2.0\Weapsy.Mediator.dll</HintPath>
+    </Reference>
+    <Reference Include="Weapsy.Mediator.EventStore.EF">
+      <HintPath>..\..\..\..\weapsy.mediator\repository\src\Weapsy.Mediator.EventStore.EF\bin\Debug\netcoreapp2.0\Weapsy.Mediator.EventStore.EF.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

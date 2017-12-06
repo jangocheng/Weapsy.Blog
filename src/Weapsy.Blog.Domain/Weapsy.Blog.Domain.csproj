@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="7.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ReflectionMagic">
+      <HintPath>..\..\..\..\..\..\..\.nuget\packages\reflectionmagic\3.1.0\lib\netstandard2.0\ReflectionMagic.dll</HintPath>
+    </Reference>
+    <Reference Include="Weapsy.Mediator">
+      <HintPath>..\..\..\..\weapsy.mediator\repository\src\Weapsy.Mediator.EventStore.EF\bin\Debug\netcoreapp2.0\Weapsy.Mediator.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
