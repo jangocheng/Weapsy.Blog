@@ -14,17 +14,13 @@
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="6.10.4" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.0" />
     <PackageReference Include="Scrutor" Version="2.1.2" />
+    <PackageReference Include="Weapsy.Mediator" Version="1.4.0" />
+    <PackageReference Include="Weapsy.Mediator.EventStore.EF" Version="1.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Weapsy.Blog.Domain\Weapsy.Blog.Domain.csproj" />
     <ProjectReference Include="..\Weapsy.Blog.Reporting\Weapsy.Blog.Reporting.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Weapsy.Mediator">
-      <HintPath>..\..\..\..\weapsy.mediator\repository\src\Weapsy.Mediator.EventStore.EF\bin\Debug\netcoreapp2.0\Weapsy.Mediator.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
