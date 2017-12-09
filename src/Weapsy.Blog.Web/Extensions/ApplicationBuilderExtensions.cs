@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Weapsy.Blog.Domain.Blogs.Commands;
 using Weapsy.Blog.Reporting.Blogs;
 using Weapsy.Blog.Reporting.Blogs.Queries;
+using Weapsy.Blog.Web.Middleware;
 using Weapsy.Mediator;
 
 namespace Weapsy.Blog.Web.Extensions
@@ -25,6 +26,11 @@ namespace Weapsy.Blog.Web.Extensions
             }
 
             return app;
+        }
+
+        public static IApplicationBuilder UseTheme(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<ThemeMiddleware>();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -60,10 +61,19 @@ namespace Weapsy.Blog.Web.Extensions
             return services;
         }
 
+        public static IServiceCollection AddWeapsyBlogThemes(this IServiceCollection services)
+        {
+            services.Configure<RazorViewEngineOptions>(options => {
+                options.ViewLocationExpanders.Add(new ViewLocationExpander());
+            });
+
+            return services;
+        }
+
         public static IServiceCollection AddIdentity(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("IdentityConnection")));
+                options.UseSqlServer(configuration.GetConnectionString(Constants.ConfigIdentityConnection)));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()

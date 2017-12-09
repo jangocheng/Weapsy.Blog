@@ -32,6 +32,7 @@ namespace Weapsy.Blog.Web
             services.AddWeapsyMediatorWithEF(Configuration);
             services.AddWeapsyBlogWithEF(Configuration);
             services.AddWeapsyBlogAutoMapper();
+            services.AddWeapsyBlogThemes();
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
@@ -51,6 +52,8 @@ namespace Weapsy.Blog.Web
             //app.EnsureMediatorDbCreated();
             //app.EnsureBlogDbCreated();
             app.EnsureDefaultBlogCreated();
+
+            app.UseTheme();
 
             if (env.IsDevelopment())
             {

@@ -28,4 +28,8 @@
     <ProjectReference Include="..\Weapsy.Blog.Reporting\Weapsy.Blog.Reporting.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Themes\Default\" />
+  </ItemGroup>
+
 </Project>
