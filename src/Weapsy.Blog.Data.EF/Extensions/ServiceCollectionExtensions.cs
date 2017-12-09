@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Weapsy.Blog.Data.EF.Configuration;
-using Weapsy.Blog.Data.EF._new;
+using static Weapsy.Blog.Data.EF.Constants;
 
 // ReSharper disable InconsistentNaming
 
@@ -19,44 +18,10 @@ namespace Weapsy.Blog.Data.EF.Extensions
             services.Configure<BlogData>(c => {
                 c.EFProvider = (DataProvider)Enum.Parse(
                     typeof(DataProvider),
-                    configuration.GetSection("BlogData")["EFProvider"]);
+                    configuration.GetSection(ConfigBlogData)[ConfigEFProvider]);
             });
 
-            services.Configure<ConnectionStrings>(configuration.GetSection("ConnectionStrings"));
-
-            return services;
-        }
-
-        public static IServiceCollection AddWeapsyBlogEF2(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.Scan(s => s
-                .FromAssembliesOf(typeof(BlogDbContext))
-                .AddClasses()
-                .AsImplementedInterfaces());
-
-            var dataProviderConfig = configuration.GetSection("BlogData")["EFProvider"];
-            var connectionStringConfig = configuration.GetConnectionString("BlogConnection");
-
-            switch (dataProviderConfig)
-            {
-                case "MSSQL":
-                    services.AddDbContext<BlogDbContext>(options =>
-                        options.UseSqlServer(connectionStringConfig));
-                    services.AddTransient<_new.IDbContextFactory, MSSQLDbContextFactory>();
-                    break;
-                default:
-                    throw new ApplicationException("The Blog EF Data Provider entry in appsettings.json is empty or the one specified has not been found.");
-            }
-
-            //var currentAssembly = typeof(ServiceCollectionExtensions).GetTypeInfo().Assembly;
-            //var allFactories = currentAssembly.GetImplementationsOf<_new.IDbContextFactory>();
-
-            //var configuredFactory = allFactories.SingleOrDefault(x => x.Provider.ToString() == dataProviderConfig);
-
-            //if (configuredFactory == null)
-            //    throw new ApplicationException("The Blog EF Data Provider entry in appsettings.json is empty or the one specified has not been found.");
-
-            //configuredFactory.RegisterDbContextFactory(services);
+            services.Configure<ConnectionStrings>(configuration.GetSection(ConfigConnectionStrings));
 
             return services;
         }
@@ -68,18 +33,19 @@ namespace Weapsy.Blog.Data.EF.Extensions
                 .AddClasses()
                 .AsImplementedInterfaces());
 
-            var dataProviderConfig = configuration.GetSection("BlogData")["EFProvider"];
-            var connectionStringConfig = configuration.GetConnectionString("BlogConnection");
+            var dataProviderConfig = configuration.GetSection(ConfigBlogData)[ConfigEFProvider];
+            var connectionStringConfig = configuration.GetConnectionString(ConfigBlogConnection);
 
             var currentAssembly = typeof(ServiceCollectionExtensions).GetTypeInfo().Assembly;
-            var allDataProviders = currentAssembly.GetImplementationsOf<IDataProvider>();
+            var allFactories = currentAssembly.GetImplementationsOf<IDbContextFactory>();
 
-            var configuredDataProvider = allDataProviders.SingleOrDefault(x => x.Provider.ToString() == dataProviderConfig);
+            var configuredFactory = allFactories.SingleOrDefault(x => x.Provider.ToString() == dataProviderConfig);
 
-            if (configuredDataProvider == null)
+            if (configuredFactory == null)
                 throw new ApplicationException("The Blog EF Data Provider entry in appsettings.json is empty or the one specified has not been found.");
 
-            configuredDataProvider.RegisterDbContext(services, connectionStringConfig);
+            configuredFactory.RegisterDbContextFactory(services);
+            configuredFactory.RegisterDbContext(services, connectionStringConfig);
 
             return services;
         }

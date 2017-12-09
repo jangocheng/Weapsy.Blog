@@ -10,10 +10,10 @@ namespace Weapsy.Blog.Data.EF.Domain
 {
     public class BlogRepository : IBlogRepository
     {
-        private readonly _new.IDbContextFactory _dbContextFactory;
+        private readonly IDbContextFactory _dbContextFactory;
         private readonly IMapper _mapper;
 
-        public BlogRepository(_new.IDbContextFactory dbContextFactory, IMapper mapper)
+        public BlogRepository(IDbContextFactory dbContextFactory, IMapper mapper)
         {
             _dbContextFactory = dbContextFactory;
             _mapper = mapper;
