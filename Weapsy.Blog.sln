@@ -11,11 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weapsy.Blog.Reporting", "sr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{194DABAB-B907-4467-853A-58913C29BC81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weapsy.Blog.Data.EF", "src\Weapsy.Blog.Data.EF\Weapsy.Blog.Data.EF.csproj", "{B2C13616-BC40-464F-8565-169E2D673664}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weapsy.Blog.Data.EF", "src\Weapsy.Blog.Data.EF\Weapsy.Blog.Data.EF.csproj", "{B2C13616-BC40-464F-8565-169E2D673664}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{2C53E047-4B15-4A91-9BC2-87F7DC1EE1FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weapsy.Blog.Domain.Tests", "test\Weapsy.Blog.Domain.Tests\Weapsy.Blog.Domain.Tests.csproj", "{CCF1D443-9B6D-4B9F-9150-38ED0E762316}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weapsy.Blog.Domain.Tests", "test\Weapsy.Blog.Domain.Tests\Weapsy.Blog.Domain.Tests.csproj", "{CCF1D443-9B6D-4B9F-9150-38ED0E762316}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
