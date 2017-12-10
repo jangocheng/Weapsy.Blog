@@ -20,6 +20,7 @@ namespace Weapsy.Blog.Domain.Tests
                 Content = "Content",
                 Slug = "my-post",
                 Excerpt = "Summary",
+                Type = PostType.Article,
                 Status = PostStatus.Draft,
                 Tags = new List<string> { "weapsy", "blog" },
                 Title = "My Post"
@@ -40,6 +41,7 @@ namespace Weapsy.Blog.Domain.Tests
                 Content = "Content updated",
                 Slug = "my-post-updated",
                 Excerpt = "Summary updated",
+                Type = PostType.Article,
                 Status = PostStatus.Published,
                 Tags = new List<string> { "weapsy", "blog", "update" },
                 Title = "My Post Updated"

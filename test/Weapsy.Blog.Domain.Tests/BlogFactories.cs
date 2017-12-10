@@ -15,7 +15,8 @@ namespace Weapsy.Blog.Domain.Tests
             return new CreateBlog
             {
                 AggregateRootId = Guid.NewGuid(),
-                Title = "My Blog"
+                Title = "My Blog",
+                Theme = "Default"
             };
         }
 
@@ -29,7 +30,8 @@ namespace Weapsy.Blog.Domain.Tests
             return new UpdateBlog
             {
                 AggregateRootId = Guid.NewGuid(),
-                Title = "My Blog"
+                Title = "My Blog",
+                Theme = "Default"
             };
         }
 

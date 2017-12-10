@@ -59,6 +59,12 @@ namespace Weapsy.Blog.Domain.Tests.Posts
         }
 
         [Test]
+        public void SetsType()
+        {
+            Assert.AreEqual(_event.Type, _post.Type);
+        }
+
+        [Test]
         public void SetsStatus()
         {
             Assert.AreEqual(_event.Status, _post.Status);

@@ -26,6 +26,8 @@ namespace Weapsy.Blog.Data.EF.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Theme");
+
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
@@ -51,6 +53,8 @@ namespace Weapsy.Blog.Data.EF.Migrations
                     b.Property<DateTime>("StatusTimeStamp");
 
                     b.Property<string>("Title");
+
+                    b.Property<int>("Type");
 
                     b.HasKey("Id");
 

@@ -14,7 +14,7 @@ namespace Weapsy.Blog.Domain.Posts.CommandHandlers
         public CreatePostHandler(IPostRepository postRepository, IValidator<CreatePost> validator)
         {
             _postRepository = postRepository;
-            _validator = validator;           
+            _validator = validator;
         }
 
         public async Task<IEnumerable<IDomainEvent>> HandleAsync(CreatePost command)

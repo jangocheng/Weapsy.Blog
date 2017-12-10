@@ -15,6 +15,7 @@ namespace Weapsy.Blog.Data.EF.Entities
         public string Content { get; set; }
         [NotMapped]
         public IEnumerable<string> Tags { get; set; }
+        public PostType Type { get; set; }
         public PostStatus Status { get; set; }
         public DateTime StatusTimeStamp { get; set; }
     }

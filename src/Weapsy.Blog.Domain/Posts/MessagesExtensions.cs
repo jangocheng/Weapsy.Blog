@@ -16,6 +16,7 @@ namespace Weapsy.Blog.Domain.Posts
                 Excerpt = command.Excerpt,
                 Content = command.Content,
                 Tags = command.Tags,
+                Type = command.Type,
                 Status = command.Status
             };
         }
@@ -30,6 +31,7 @@ namespace Weapsy.Blog.Domain.Posts
                 Excerpt = command.Excerpt,
                 Content = command.Content,
                 Tags = command.Tags,
+                Type = command.Type,
                 Status = command.Status
             };
         }

@@ -5,6 +5,15 @@
     <UserSecretsId>aspnet-Weapsy.Blog.Web-DF509BAD-736A-4099-884B-F10EE8F27987</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Include="Themes\Default\wwwroot\css\site.css">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Themes\Default\wwwroot\css\site.min.css">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
@@ -26,10 +35,6 @@
     <ProjectReference Include="..\Weapsy.Blog.Data.EF\Weapsy.Blog.Data.EF.csproj" />
     <ProjectReference Include="..\Weapsy.Blog.Domain\Weapsy.Blog.Domain.csproj" />
     <ProjectReference Include="..\Weapsy.Blog.Reporting\Weapsy.Blog.Reporting.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Themes\Default\" />
   </ItemGroup>
 
 </Project>

@@ -10,11 +10,11 @@ namespace Weapsy.Blog.Web.Api
     [Authorize]
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public abstract class ControllerBase : Controller
+    public abstract class ApiControllerBase : Controller
     {
         private static IMediator _mediator;
 
-        protected ControllerBase(IMediator mediator)
+        protected ApiControllerBase(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -23,8 +23,7 @@ namespace Weapsy.Blog.Web.Api
         {
             get
             {
-                var blogId = new Guid(Constants.DefaultBlogId);
-                var query = new GetBlog { BlogId = blogId };
+                var query = new GetBlog { BlogId = Constants.DefaultBlogId };
                 return _mediator.GetResult<GetBlog, BlogViewModel>(query);
             }
         }

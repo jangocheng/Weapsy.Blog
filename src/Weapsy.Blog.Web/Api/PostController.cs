@@ -11,7 +11,7 @@ using Weapsy.Mediator;
 
 namespace Weapsy.Blog.Web.Api
 {
-    public class PostController : ControllerBase
+    public class PostController : ApiControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IPostRules _postRules;

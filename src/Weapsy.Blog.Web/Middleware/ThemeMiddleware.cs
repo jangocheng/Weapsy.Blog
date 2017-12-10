@@ -14,7 +14,7 @@ namespace Weapsy.Blog.Web.Middleware
 
         public Task Invoke(HttpContext context)
         {
-            context.Request.HttpContext.Items[Constants.HttpContextItemThemeKey] = "Default";
+            context.Request.HttpContext.Items[Constants.HttpContextItemThemeKey] = Constants.DefaultTheme;
             return _next(context);
         }
     }

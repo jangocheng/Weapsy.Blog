@@ -10,7 +10,7 @@ using Weapsy.Mediator;
 
 namespace Weapsy.Blog.Web.Api
 {
-    public class BlogController : ControllerBase
+    public class BlogController : ApiControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IBlogRules _blogRules;

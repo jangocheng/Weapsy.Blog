@@ -10,7 +10,8 @@ namespace Weapsy.Blog.Domain.Blogs
             return new BlogCreated
             {
                 AggregateRootId = command.AggregateRootId,
-                Title = command.Title
+                Title = command.Title,
+                Theme = command.Theme
             };
         }
 
@@ -19,7 +20,8 @@ namespace Weapsy.Blog.Domain.Blogs
             return new BlogUpdated
             {
                 AggregateRootId = command.AggregateRootId,
-                Title = command.Title
+                Title = command.Title,
+                Theme = command.Theme
             };
         }
     }

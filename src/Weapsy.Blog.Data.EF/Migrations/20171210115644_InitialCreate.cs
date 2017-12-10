@@ -13,6 +13,7 @@ namespace Weapsy.Blog.Data.EF.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    Theme = table.Column<string>(nullable: true),
                     Title = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -31,7 +32,8 @@ namespace Weapsy.Blog.Data.EF.Migrations
                     Slug = table.Column<string>(nullable: true),
                     Status = table.Column<int>(nullable: false),
                     StatusTimeStamp = table.Column<DateTime>(nullable: false),
-                    Title = table.Column<string>(nullable: true)
+                    Title = table.Column<string>(nullable: true),
+                    Type = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

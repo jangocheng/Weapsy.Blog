@@ -38,5 +38,11 @@ namespace Weapsy.Blog.Domain.Tests.Blogs
         {
             Assert.AreEqual(_event.Title, _blog.Title);
         }
+
+        [Test]
+        public void SetsTheme()
+        {
+            Assert.AreEqual(_event.Theme, _blog.Theme);
+        }
     }
 }

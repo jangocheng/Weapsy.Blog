@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Weapsy.Blog.Data.EF;
@@ -43,18 +44,10 @@ namespace Weapsy.Blog.Web
             IHostingEnvironment env,
             ApplicationDbContext applicationDbContext,
             BlogDbContext blogDbContext,
-            MediatorDbContext mediatorDbContext)
+            MediatorDbContext mediatorDbContext,
+            UserManager<IdentityUser> userManager, 
+            RoleManager<IdentityRole> roleManager)
         {
-            applicationDbContext.Database.Migrate();
-            blogDbContext.Database.Migrate();
-            mediatorDbContext.Database.Migrate();
-
-            //app.EnsureMediatorDbCreated();
-            //app.EnsureBlogDbCreated();
-            app.EnsureDefaultBlogCreated();
-
-            app.UseTheme();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -76,6 +69,16 @@ namespace Weapsy.Blog.Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            applicationDbContext.Database.Migrate();
+            blogDbContext.Database.Migrate();
+            mediatorDbContext.Database.Migrate();
+
+            //app.EnsureMediatorDbCreated();
+            //app.EnsureBlogDbCreated();
+            app.EnsureDefaultBlogCreated();
+            app.EnsureDefaultUserCreated(userManager, roleManager);
+            app.UseTheme();
         }
     }
 }

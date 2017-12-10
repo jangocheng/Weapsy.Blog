@@ -12,7 +12,7 @@ using Weapsy.Blog.Domain.Posts;
 namespace Weapsy.Blog.Data.EF.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    [Migration("20171128182251_InitialCreate")]
+    [Migration("20171210115644_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,6 +26,8 @@ namespace Weapsy.Blog.Data.EF.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Theme");
 
                     b.Property<string>("Title");
 
@@ -52,6 +54,8 @@ namespace Weapsy.Blog.Data.EF.Migrations
                     b.Property<DateTime>("StatusTimeStamp");
 
                     b.Property<string>("Title");
+
+                    b.Property<int>("Type");
 
                     b.HasKey("Id");
 

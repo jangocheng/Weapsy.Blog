@@ -8,6 +8,7 @@ namespace Weapsy.Blog.Domain.Blogs
     public class Blog : AggregateRoot
     {
         public string Title { get; private set; }
+        public string Theme { get; private set; }
 
         public Blog()
         {
@@ -29,11 +30,13 @@ namespace Weapsy.Blog.Domain.Blogs
         {
             Id = @event.AggregateRootId;
             Title = @event.Title;
+            Theme = @event.Theme;
         }
 
         private void Apply(BlogUpdated @event)
         {
             Title = @event.Title;
+            Theme = @event.Theme;
         }
     }
 }

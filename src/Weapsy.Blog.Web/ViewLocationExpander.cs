@@ -8,7 +8,8 @@ namespace Weapsy.Blog.Web
     {
         public void PopulateValues(ViewLocationExpanderContext context)
         {
-            var theme = context.ActionContext.HttpContext.Items[Constants.HttpContextItemThemeKey].ToString();
+            var themeItem = context.ActionContext.HttpContext.Items[Constants.HttpContextItemThemeKey];
+            var theme = themeItem != null ? themeItem.ToString() : Constants.DefaultTheme;
             context.Values[Constants.HttpContextItemThemeKey] = theme;
         }
 

@@ -15,6 +15,7 @@ namespace Weapsy.Blog.Domain.Posts
         public string Excerpt { get; private set; }
         public string Content { get; private set; }
         public IEnumerable<string> Tags { get; private set; }
+        public PostType Type { get; private set; }
         public PostStatus Status { get; private set; }
         public DateTime StatusTimeStamp { get; private set; }
         
@@ -88,6 +89,7 @@ namespace Weapsy.Blog.Domain.Posts
             Excerpt = @event.Excerpt;
             Content = @event.Content;
             Tags = @event.Tags;
+            Type = @event.Type;
             Status = @event.Status;
             StatusTimeStamp = @event.TimeStamp;
         }
@@ -99,7 +101,8 @@ namespace Weapsy.Blog.Domain.Posts
             Excerpt = @event.Excerpt;
             Content = @event.Content;
             Tags = @event.Tags;
-            Status = @event.Status;
+            Type = @event.Type;
+            Status = @event.Status;           
             StatusTimeStamp = @event.TimeStamp;
         }
 
