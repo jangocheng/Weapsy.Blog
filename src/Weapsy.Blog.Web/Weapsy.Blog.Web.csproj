@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Weapsy.Blog.Data.EF\Weapsy.Blog.Data.EF.csproj" />
+    <ProjectReference Include="..\Weapsy.Blog.Data\Weapsy.Blog.Data.csproj" />
     <ProjectReference Include="..\Weapsy.Blog.Domain\Weapsy.Blog.Domain.csproj" />
     <ProjectReference Include="..\Weapsy.Blog.Reporting\Weapsy.Blog.Reporting.csproj" />
   </ItemGroup>

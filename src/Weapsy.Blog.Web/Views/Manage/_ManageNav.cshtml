@@ -1,5 +1,7 @@
-﻿@using Weapsy.Blog.Web.Views.Manage
-@inject SignInManager<IdentityUser> SignInManager
+﻿@using Microsoft.AspNetCore.Identity
+@using Weapsy.Blog.Data.Entities
+@using Weapsy.Blog.Web.Views.Manage
+@inject SignInManager<UserEntity> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

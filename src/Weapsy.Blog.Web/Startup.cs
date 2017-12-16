@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Weapsy.Blog.Data.EF;
-using Weapsy.Blog.Web.Data;
+using Weapsy.Blog.Data;
+using Weapsy.Blog.Data.Entities;
 using Weapsy.Blog.Web.Extensions;
 using Weapsy.Blog.Web.Services;
 using Weapsy.Mediator.EventStore.EF;
@@ -26,27 +26,25 @@ namespace Weapsy.Blog.Web
         {
             services.AddOptions();
 
-            services.AddIdentity(Configuration);
-
             services.AddMvc();
 
+            // Add application services.
+            services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddWeapsyBlogIdentity(Configuration);
             services.AddWeapsyMediatorWithEF(Configuration);
             services.AddWeapsyBlogWithEF(Configuration);
             services.AddWeapsyBlogAutoMapper();
             services.AddWeapsyBlogThemes();
-
-            // Add application services.
-            services.AddTransient<IEmailSender, EmailSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, 
             IHostingEnvironment env,
-            ApplicationDbContext applicationDbContext,
             BlogDbContext blogDbContext,
             MediatorDbContext mediatorDbContext,
-            UserManager<IdentityUser> userManager, 
-            RoleManager<IdentityRole> roleManager)
+            UserManager<UserEntity> userManager, 
+            RoleManager<RoleEntity> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -70,7 +68,6 @@ namespace Weapsy.Blog.Web
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            applicationDbContext.Database.Migrate();
             blogDbContext.Database.Migrate();
             mediatorDbContext.Database.Migrate();
 

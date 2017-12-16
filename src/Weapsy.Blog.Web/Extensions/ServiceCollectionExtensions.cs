@@ -1,16 +1,17 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Weapsy.Blog.Data.EF.Domain;
-using Weapsy.Blog.Data.EF.Extensions;
-using Weapsy.Blog.Data.EF.Reporting;
+using Weapsy.Blog.Data;
+using Weapsy.Blog.Data.Domain;
+using Weapsy.Blog.Data.Entities;
+using Weapsy.Blog.Data.Extensions;
+using Weapsy.Blog.Data.Reporting;
 using Weapsy.Blog.Domain.Blogs.Commands;
-using Weapsy.Blog.Reporting.Blogs.Queries;
-using Weapsy.Blog.Web.Data;
-using Weapsy.Blog.Web.Models;
+using Weapsy.Blog.Reporting.Queries;
 using Weapsy.Mediator.EventStore.EF.Extensions;
 using Weapsy.Mediator.Extensions;
 
@@ -23,7 +24,7 @@ namespace Weapsy.Blog.Web.Extensions
         public static IServiceCollection AddWeapsyBlog(this IServiceCollection services)
         {
             services.Scan(s => s
-                .FromAssembliesOf(typeof(CreateBlog), typeof(GetBlog))
+                .FromAssembliesOf(typeof(CreateBlog), typeof(GetBlogSettings))
                 .AddClasses()
                 .AsImplementedInterfaces());
 
@@ -41,7 +42,7 @@ namespace Weapsy.Blog.Web.Extensions
 
         public static IServiceCollection AddWeapsyMediatorWithEF(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddWeapsyMediator(typeof(CreateBlog), typeof(GetBlog));
+            services.AddWeapsyMediator(typeof(CreateBlog), typeof(GetBlogSettings));
             services.AddWeapsyMediatorEFOptions(configuration);
             services.AddWeapsyMediatorEF(configuration);
 
@@ -70,13 +71,13 @@ namespace Weapsy.Blog.Web.Extensions
             return services;
         }
 
-        public static IServiceCollection AddIdentity(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddWeapsyBlogIdentity(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString(Constants.ConfigIdentityConnection)));
+            services.AddDbContext<BlogDbContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString(Weapsy.Blog.Data.Constants.ConfigBlogConnection)));
 
-            services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+            services.AddIdentity<UserEntity, RoleEntity>()
+                .AddEntityFrameworkStores<BlogDbContext>()
                 .AddDefaultTokenProviders();
 
             return services;

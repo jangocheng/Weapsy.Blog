@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weapsy.Blog.Domain.Blogs.Rules;
 using Weapsy.Blog.Domain.Blogs.Commands;
-using Weapsy.Blog.Reporting.Blogs;
-using Weapsy.Blog.Reporting.Blogs.Queries;
+using Weapsy.Blog.Reporting.Models;
+using Weapsy.Blog.Reporting.Queries;
 using Weapsy.Mediator;
 
 namespace Weapsy.Blog.Web.Api
@@ -41,8 +41,8 @@ namespace Weapsy.Blog.Web.Api
         [AllowAnonymous]
         public async Task<IActionResult> Get(Guid id)
         {
-            var query = new GetBlog { BlogId = id };
-            await _mediator.GetResultAsync<GetBlog, BlogViewModel>(query);
+            var query = new GetBlogSettings { BlogId = id };
+            await _mediator.GetResultAsync<GetBlogSettings, BlogSettings>(query);
             return new NoContentResult();
         }
 
