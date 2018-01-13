@@ -1,29 +1,20 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using Weapsy.Blog.Reporting.Models;
-using Weapsy.Blog.Reporting.Queries;
-using Weapsy.Mediator;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Weapsy.Blog.Web.Configuration;
 
 namespace Weapsy.Blog.Web.Controllers
 {
     public abstract class ControllerBase : Controller
     {
-        private static IMediator _mediator;
-
-        protected ControllerBase(IMediator mediator)
+        protected Guid BlogId
         {
-            _mediator = mediator;
+            get
+            {
+                var options = HttpContext.RequestServices.GetService<IOptions<BlogSettings>>();
+                return Guid.Parse(options.Value.DefaultBlogId);
+            }
         }
-
-        //protected static BlogSettings Blog
-        //{
-        //    get
-        //    {
-        //        var query = new GetBlogSettings { BlogId = Constants.DefaultBlogId };
-        //        return _mediator.GetResult<GetBlogSettings, BlogSettings>(query);
-        //    }
-        //}
-
-        protected Guid BlogId { get; } = Constants.DefaultBlogId;
     }
 }

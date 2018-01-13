@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FluentValidation;
+﻿using System.Threading.Tasks;
 using FluentValidation.Results;
 using Moq;
 using NUnit.Framework;
 using Weapsy.Blog.Domain.Posts;
 using Weapsy.Blog.Domain.Posts.CommandHandlers;
+using Weapsy.Blog.Domain.Posts.CommandHandlers.Validators.Abstractions;
 using Weapsy.Blog.Domain.Posts.Commands;
-using Weapsy.Blog.Domain.Posts.Events;
 using Weapsy.Mediator.Domain;
 
 namespace Weapsy.Blog.Domain.Tests.Posts.CommandHandlers
@@ -17,12 +14,11 @@ namespace Weapsy.Blog.Domain.Tests.Posts.CommandHandlers
     public class CreatePostHandlerTests
     {
         private CreatePost _command;
-        private PostCreated _event;
         private Post _post;
-        private IEnumerable<IDomainEvent> _result;
+        private IAggregateRoot _result;
 
-        private Mock<IPostRepository> _postRepositoryMock;
-        private Mock<IValidator<CreatePost>> _validatorMock;
+        private Mock<IPostRepository> _repositoryMock;
+        private Mock<ICreatePostValidator> _validatorMock;
         private IDomainCommandHandlerAsync<CreatePost> _commandHandler;
 
         [SetUp]
@@ -30,31 +26,30 @@ namespace Weapsy.Blog.Domain.Tests.Posts.CommandHandlers
         {
             _command = PostFactories.CreatePostCommand();
 
-            _validatorMock = new Mock<IValidator<CreatePost>>();
-            _validatorMock.Setup(x => x.Validate(_command)).Returns(new ValidationResult());
-
-            _postRepositoryMock = new Mock<IPostRepository>();
-            _postRepositoryMock
+            _repositoryMock = new Mock<IPostRepository>();
+            _repositoryMock
                 .Setup(x => x.CreateAsync(It.IsAny<Post>()))
                 .Callback<Post>(p => _post = p)
                 .Returns(Task.CompletedTask);
 
-            _commandHandler = new CreatePostHandler(_postRepositoryMock.Object, _validatorMock.Object);
-            _result =  await _commandHandler.HandleAsync(_command);
+            _validatorMock = new Mock<ICreatePostValidator>();
+            _validatorMock.Setup(x => x.Validate(_command)).Returns(new ValidationResult());
 
-            _event = _post.Events.OfType<PostCreated>().Single();
+            _commandHandler = new CreatePostHandler(_repositoryMock.Object, _validatorMock.Object);
+
+            _result = await _commandHandler.HandleAsync(_command);
         }
 
         [Test]
         public void SavesPost()
         {
-            _postRepositoryMock.Verify(x => x.CreateAsync(_post), Times.Once);
+            _repositoryMock.Verify(x => x.CreateAsync(_post), Times.Once);
         }
 
         [Test]
-        public void ReturnsEvents()
+        public void ReturnsPost()
         {
-            Assert.AreEqual(_event, _result.Single());
+            Assert.AreEqual(_post, _result);
         }
     }
 }

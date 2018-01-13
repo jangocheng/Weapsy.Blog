@@ -17,7 +17,7 @@ namespace Weapsy.Blog.Domain.Tests.Posts.CommandHandlers.Validators
             var command = PostFactories.CreatePostCommand();
             command.Title = string.Empty;
             var postRulesMock = new Mock<IPostRules>();
-            postRulesMock.Setup(x => x.IsTitleUniqueAsync(command.BlogId, command.AggregateRootId, command.Title)).ReturnsAsync(true);
+            postRulesMock.Setup(x => x.IsTitleUniqueAsync(command.BlogId, command.Title)).ReturnsAsync(true);
             var blogRulesMock = new Mock<IBlogRules>();
             var validator = new CreatePostValidator(postRulesMock.Object, blogRulesMock.Object);
             validator.ShouldHaveValidationErrorFor(x => x.Title, command);
@@ -29,7 +29,7 @@ namespace Weapsy.Blog.Domain.Tests.Posts.CommandHandlers.Validators
             var command = PostFactories.CreatePostCommand();
             command.Title = SharedFactories.RandomString(101);
             var postRulesMock = new Mock<IPostRules>();
-            postRulesMock.Setup(x => x.IsTitleUniqueAsync(command.BlogId, command.AggregateRootId, command.Title)).ReturnsAsync(true);
+            postRulesMock.Setup(x => x.IsTitleUniqueAsync(command.BlogId, command.Title)).ReturnsAsync(true);
             var blogRulesMock = new Mock<IBlogRules>();
             var validator = new CreatePostValidator(postRulesMock.Object, blogRulesMock.Object);
             validator.ShouldHaveValidationErrorFor(x => x.Title, command);
@@ -40,7 +40,7 @@ namespace Weapsy.Blog.Domain.Tests.Posts.CommandHandlers.Validators
         {
             var command = PostFactories.CreatePostCommand();
             var postRulesMock = new Mock<IPostRules>();
-            postRulesMock.Setup(x => x.IsTitleUniqueAsync(command.BlogId, command.AggregateRootId, command.Title)).ReturnsAsync(false);
+            postRulesMock.Setup(x => x.IsTitleUniqueAsync(command.BlogId, command.Title)).ReturnsAsync(false);
             var blogRulesMock = new Mock<IBlogRules>();
             var validator = new CreatePostValidator(postRulesMock.Object, blogRulesMock.Object);
             validator.ShouldHaveValidationErrorFor(x => x.Title, command);
@@ -52,7 +52,7 @@ namespace Weapsy.Blog.Domain.Tests.Posts.CommandHandlers.Validators
             var command = PostFactories.CreatePostCommand();
             command.Slug = string.Empty;
             var postRulesMock = new Mock<IPostRules>();
-            postRulesMock.Setup(x => x.IsSlugUniqueAsync(command.BlogId, command.AggregateRootId, command.Slug)).ReturnsAsync(true);
+            postRulesMock.Setup(x => x.IsSlugUniqueAsync(command.BlogId, command.Slug)).ReturnsAsync(true);
             var blogRulesMock = new Mock<IBlogRules>();
             var validator = new CreatePostValidator(postRulesMock.Object, blogRulesMock.Object);
             validator.ShouldHaveValidationErrorFor(x => x.Slug, command);
@@ -64,7 +64,7 @@ namespace Weapsy.Blog.Domain.Tests.Posts.CommandHandlers.Validators
             var command = PostFactories.CreatePostCommand();
             command.Slug = SharedFactories.RandomString(101);
             var postRulesMock = new Mock<IPostRules>();
-            postRulesMock.Setup(x => x.IsSlugUniqueAsync(command.BlogId, command.AggregateRootId, command.Slug)).ReturnsAsync(true);
+            postRulesMock.Setup(x => x.IsSlugUniqueAsync(command.BlogId, command.Slug)).ReturnsAsync(true);
             var blogRulesMock = new Mock<IBlogRules>();
             var validator = new CreatePostValidator(postRulesMock.Object, blogRulesMock.Object);
             validator.ShouldHaveValidationErrorFor(x => x.Slug, command);
@@ -75,7 +75,7 @@ namespace Weapsy.Blog.Domain.Tests.Posts.CommandHandlers.Validators
         {
             var command = PostFactories.CreatePostCommand();
             var postRulesMock = new Mock<IPostRules>();
-            postRulesMock.Setup(x => x.IsSlugUniqueAsync(command.BlogId, command.AggregateRootId, command.Slug)).ReturnsAsync(false);
+            postRulesMock.Setup(x => x.IsSlugUniqueAsync(command.BlogId, command.Slug)).ReturnsAsync(false);
             var blogRulesMock = new Mock<IBlogRules>();
             var validator = new CreatePostValidator(postRulesMock.Object, blogRulesMock.Object);
             validator.ShouldHaveValidationErrorFor(x => x.Slug, command);

@@ -10,7 +10,7 @@ namespace Weapsy.Blog.Web.Controllers
     {
         private readonly IMediator _mediator;
 
-        public BlogController(IMediator mediator) : base(mediator)
+        public BlogController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -22,9 +22,16 @@ namespace Weapsy.Blog.Web.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Post()
+        [Route("blog/{slug}")]
+        public async Task<IActionResult> Post(string slug)
         {
-            return View();
+            var query = new GetPostViewModel { BlogId = BlogId, PostSlug = slug };
+            var viewModel = await _mediator.GetResultAsync<GetPostViewModel, PostViewModel>(query);
+            if (viewModel == null)
+            {
+                return NotFound();
+            }
+            return View(viewModel);
         }
     }
 }

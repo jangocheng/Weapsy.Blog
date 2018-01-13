@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Results;
@@ -9,7 +7,6 @@ using NUnit.Framework;
 using Weapsy.Blog.Domain.Blogs;
 using Weapsy.Blog.Domain.Blogs.CommandHandlers;
 using Weapsy.Blog.Domain.Blogs.Commands;
-using Weapsy.Blog.Domain.Blogs.Events;
 using Weapsy.Mediator.Domain;
 
 namespace Weapsy.Blog.Domain.Tests.Blogs.CommandHandlers
@@ -18,10 +15,9 @@ namespace Weapsy.Blog.Domain.Tests.Blogs.CommandHandlers
     public class UpdateBlogHandlerTests
     {
         private UpdateBlog _command;
-        private BlogUpdated _event;
         private Domain.Blogs.Blog _blog;
         private Domain.Blogs.Blog _updatedBlog;
-        private IEnumerable<IDomainEvent> _result;
+        private IAggregateRoot _result;
 
         private Mock<IBlogRepository> _blogRepositoryMock;
         private Mock<IValidator<UpdateBlog>> _validatorMock;
@@ -48,8 +44,6 @@ namespace Weapsy.Blog.Domain.Tests.Blogs.CommandHandlers
 
             _commandHandler = new UpdateBlogHandler(_blogRepositoryMock.Object, _validatorMock.Object);
             _result = await _commandHandler.HandleAsync(_command);
-
-            _event = _updatedBlog.Events.OfType<BlogUpdated>().Single();
         }
 
         [Test]
@@ -63,9 +57,9 @@ namespace Weapsy.Blog.Domain.Tests.Blogs.CommandHandlers
         }
 
         [Test]
-        public void ReturnsEvents()
+        public void ReturnsBlog()
         {
-            Assert.AreEqual(_event, _result.OfType<BlogUpdated>().Single());
+            Assert.AreEqual(_updatedBlog, _result);
         }
     }
 }

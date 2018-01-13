@@ -1,16 +1,24 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Weapsy.Mediator;
+using Microsoft.Extensions.Options;
+using Weapsy.Blog.Web.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Weapsy.Blog.Web.Api
-{
-    [Authorize(Roles = Constants.AdministratorRoleName)]
+{    
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public abstract class ApiControllerBase : Controllers.ControllerBase
+    [Authorize(Roles = Constants.AdministratorRoleName)]
+    public abstract class ApiControllerBase : Controller
     {
-        protected ApiControllerBase(IMediator mediator) : base(mediator)
+        protected Guid BlogId
         {
+            get
+            {
+                var options = HttpContext.RequestServices.GetService<IOptions<BlogSettings>>();
+                return Guid.Parse(options.Value.DefaultBlogId);
+            }
         }
     }
 }

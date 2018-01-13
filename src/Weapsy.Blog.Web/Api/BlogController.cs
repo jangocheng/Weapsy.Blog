@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Weapsy.Blog.Domain.Blogs.Rules;
 using Weapsy.Blog.Domain.Blogs.Commands;
-using Weapsy.Blog.Reporting.Models;
-using Weapsy.Blog.Reporting.Queries;
 using Weapsy.Mediator;
 
 namespace Weapsy.Blog.Web.Api
@@ -15,7 +13,7 @@ namespace Weapsy.Blog.Web.Api
         private readonly IMediator _mediator;
         private readonly IBlogRules _blogRules;
 
-        public BlogController(IMediator mediator, IBlogRules blogRules) : base(mediator)
+        public BlogController(IMediator mediator, IBlogRules blogRules)
         {
             _mediator = mediator;
             _blogRules = blogRules;
@@ -26,7 +24,7 @@ namespace Weapsy.Blog.Web.Api
         {
             command.AggregateRootId = Guid.NewGuid();
             await _mediator.SendAndPublishAsync<CreateBlog, Domain.Blogs.Blog>(command);
-            return new NoContentResult();
+            return NoContent();
         }
 
         [HttpPut]
@@ -34,16 +32,22 @@ namespace Weapsy.Blog.Web.Api
         {
             command.AggregateRootId = BlogId;
             await _mediator.SendAndPublishAsync<UpdateBlog, Domain.Blogs.Blog>(command);
-            return new NoContentResult();
+            return NoContent();
         }
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Get(Guid id)
+        public Task<IActionResult> Get(Guid id)
         {
-            var query = new GetBlogSettings { BlogId = id };
-            await _mediator.GetResultAsync<GetBlogSettings, BlogSettings>(query);
-            return new NoContentResult();
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        [Route("{id}/indexViewModel")]
+        [AllowAnonymous]
+        public Task<IActionResult> GetIndexViewModel(Guid id)
+        {
+            throw new NotImplementedException();
         }
 
         [HttpGet]

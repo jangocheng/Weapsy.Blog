@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Weapsy.Blog.Data\Weapsy.Blog.Data.csproj" />
+    <ProjectReference Include="..\..\src\Weapsy.Blog.Domain\Weapsy.Blog.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Weapsy.Blog.Reporting\Weapsy.Blog.Reporting.csproj" />
+  </ItemGroup>
+
+</Project>

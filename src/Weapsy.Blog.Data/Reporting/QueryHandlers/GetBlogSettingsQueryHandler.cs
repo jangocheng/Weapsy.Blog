@@ -5,7 +5,7 @@ using Weapsy.Blog.Reporting.Models;
 using Weapsy.Blog.Reporting.Queries;
 using Weapsy.Mediator.Queries;
 
-namespace Weapsy.Blog.Data.Reporting
+namespace Weapsy.Blog.Data.Reporting.QueryHandlers
 {
     public class GetBlogSettingsQueryHandler : IQueryHandler<GetBlogSettings, BlogSettings>
     {

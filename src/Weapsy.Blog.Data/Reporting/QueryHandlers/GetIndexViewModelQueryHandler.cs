@@ -7,7 +7,7 @@ using Weapsy.Blog.Reporting.Models;
 using Weapsy.Blog.Reporting.Queries;
 using Weapsy.Mediator.Queries;
 
-namespace Weapsy.Blog.Data.Reporting
+namespace Weapsy.Blog.Data.Reporting.QueryHandlers
 {
     public class GetIndexViewModelQueryHandler : IQueryHandlerAsync<GetIndexViewModel, IndexViewModel>
     {
@@ -22,7 +22,7 @@ namespace Weapsy.Blog.Data.Reporting
 
         public async Task<IndexViewModel> RetrieveAsync(GetIndexViewModel query)
         {
-            return await _cacheManager.GetAsync($"Index|{query.BlogId}", 600, async () =>
+            return await _cacheManager.GetAsync(CacheKeys.IndexCacheKey(query.BlogId), 600, async () =>
             {
                 using (var dbContext = _dbContextFactory.CreateDbContext())
                 {
@@ -44,8 +44,10 @@ namespace Weapsy.Blog.Data.Reporting
                         {
                             Id = p.Id,
                             Title = p.Title,
-                            Summary = p.Excerpt
-                        }).ToList()
+                            Summary = p.Excerpt,
+                            Url = $"/blog/{p.Slug}"
+                        })
+                        .ToList()
                     };
                 }
             });

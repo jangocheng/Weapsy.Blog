@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using FluentValidation;
 using FluentValidation.Results;
 using Moq;
 using NUnit.Framework;
 using Weapsy.Blog.Domain.Posts;
+using Weapsy.Blog.Domain.Posts.CommandHandlers.Validators.Abstractions;
 using Weapsy.Blog.Domain.Posts.Commands;
 using Weapsy.Blog.Domain.Posts.Events;
 
@@ -13,7 +13,7 @@ namespace Weapsy.Blog.Domain.Tests.Posts
     public class CreatePostTests
     {
         private CreatePost _command;
-        private Mock<IValidator<CreatePost>> _validatorMock;
+        private Mock<ICreatePostValidator> _validatorMock;
         private Post _post;
         private PostCreated _event;
 
@@ -21,7 +21,7 @@ namespace Weapsy.Blog.Domain.Tests.Posts
         public void Setup()
         {
             _command = PostFactories.CreatePostCommand();
-            _validatorMock = new Mock<IValidator<CreatePost>>();
+            _validatorMock = new Mock<ICreatePostValidator>();
             _validatorMock.Setup(x => x.Validate(_command)).Returns(new ValidationResult());
             _post = new Post(_command, _validatorMock.Object);
             _event = _post.Events.OfType<PostCreated>().Single();

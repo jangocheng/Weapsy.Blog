@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentValidation;
 using Weapsy.Blog.Domain.Blogs.Commands;
@@ -18,7 +17,7 @@ namespace Weapsy.Blog.Domain.Blogs.CommandHandlers
             _validator = validator;           
         }
 
-        public async Task<IEnumerable<IDomainEvent>> HandleAsync(UpdateBlog command)
+        public async Task<IAggregateRoot> HandleAsync(UpdateBlog command)
         {
             var blog = await _blogRepository.GetByIdAsync(command.AggregateRootId);
 
@@ -29,7 +28,7 @@ namespace Weapsy.Blog.Domain.Blogs.CommandHandlers
 
             await _blogRepository.UpdateAsync(blog);
 
-            return blog.Events;
+            return blog;
         }
     }
 }

@@ -14,8 +14,7 @@ namespace Weapsy.Blog.Data.Factories
         private readonly string _connectionString;
 
         public SQLiteDbContextFactory()
-        {
-            
+        {            
         }
 
         public SQLiteDbContextFactory(IOptions<ConnectionStrings> connectionStringsOptions)

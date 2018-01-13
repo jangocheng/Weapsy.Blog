@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Weapsy.Blog.Domain.Posts;
 using Weapsy.Blog.Domain.Posts.Commands;
 using Weapsy.Blog.Domain.Posts.Rules;
+using Weapsy.Blog.Reporting.Models;
+using Weapsy.Blog.Reporting.Queries;
 using Weapsy.Mediator;
 
 namespace Weapsy.Blog.Web.Api
@@ -14,7 +16,7 @@ namespace Weapsy.Blog.Web.Api
         private readonly IMediator _mediator;
         private readonly IPostRules _postRules;
 
-        public PostController(IMediator mediator, IPostRules postRules) : base(mediator)
+        public PostController(IMediator mediator, IPostRules postRules)
         {
             _mediator = mediator;
             _postRules = postRules;
@@ -26,7 +28,7 @@ namespace Weapsy.Blog.Web.Api
             command.AggregateRootId = Guid.NewGuid();
             command.BlogId = BlogId;
             await _mediator.SendAndPublishAsync<CreatePost, Post>(command);
-            return new NoContentResult();
+            return NoContent();
         }
 
         [HttpPut]
@@ -34,16 +36,36 @@ namespace Weapsy.Blog.Web.Api
         {
             command.BlogId = BlogId;
             await _mediator.SendAndPublishAsync<UpdatePost, Post>(command);
-            return new NoContentResult();
+            return NoContent();
         }
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Get(Guid id)
+        public Task<IActionResult> Get(Guid id)
         {
-            //var query = new GetPost{ BlogId = BlogId, PostId = id };
-            //await _mediator.GetResultAsync<GetPost, PostViewModel>(query);
-            return new NoContentResult();
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        [Route("{slug}")]
+        [AllowAnonymous]
+        public Task<IActionResult> Get(string slug)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        [Route("{slug}/viewModel")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetViewModel(string slug)
+        {
+            var query = new GetPostViewModel { BlogId = BlogId, PostSlug = slug };
+            var viewModel = await _mediator.GetResultAsync<GetPostViewModel, PostViewModel>(query);
+            if (viewModel == null)
+            {
+                return NotFound();
+            }
+            return Ok(viewModel);
         }
 
         [HttpPut]
@@ -52,7 +74,7 @@ namespace Weapsy.Blog.Web.Api
         {
             var command = new PublishPost { BlogId = BlogId, AggregateRootId = id };
             await _mediator.SendAndPublishAsync<PublishPost, Post>(command);
-            return new NoContentResult();
+            return NoContent();
         }
 
         [HttpPut]
@@ -61,7 +83,7 @@ namespace Weapsy.Blog.Web.Api
         {
             var command = new DeletePost{ BlogId = BlogId, AggregateRootId = id };
             await _mediator.SendAndPublishAsync<DeletePost, Post>(command);
-            return new NoContentResult();
+            return NoContent();
         }
 
         [HttpPut]
@@ -70,22 +92,22 @@ namespace Weapsy.Blog.Web.Api
         {
             var command = new RestorePost { BlogId = BlogId, AggregateRootId = id };
             await _mediator.SendAndPublishAsync<RestorePost, Post>(command);
-            return new NoContentResult();
+            return NoContent();
         }
 
         [HttpGet]
-        [Route("{id}/isPostTitleUnique/{title}")]
-        public async Task<IActionResult> IsPostTitleUnique(Guid id, string title)
+        [Route("isPostTitleUnique/{title}")]
+        public async Task<IActionResult> IsPostTitleUnique(string title)
         {
-            var isPostTitleUnique = await _postRules.IsTitleUniqueAsync(BlogId, id, title);
+            var isPostTitleUnique = await _postRules.IsTitleUniqueAsync(BlogId, title);
             return Ok(isPostTitleUnique);
         }
 
         [HttpGet]
-        [Route("{id}/isPostSlugUnique/{slug}")]
-        public async Task<IActionResult> IsPostSlugUnique(Guid id, string slug)
+        [Route("isPostSlugUnique/{slug}")]
+        public async Task<IActionResult> IsPostSlugUnique(string slug)
         {
-            var isPostSlugUnique = await _postRules.IsSlugUniqueAsync(BlogId, id, slug);
+            var isPostSlugUnique = await _postRules.IsSlugUniqueAsync(BlogId, slug);
             return Ok(isPostSlugUnique);
         }
     }

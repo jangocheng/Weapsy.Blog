@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Weapsy.Blog.Data.Entities;
 using Weapsy.Blog.Domain.Posts;
 
-namespace Weapsy.Blog.Data.Domain
+namespace Weapsy.Blog.Data.Domain.Repositories
 {
     public class PostRepository : IPostRepository
     {
@@ -23,24 +23,31 @@ namespace Weapsy.Blog.Data.Domain
         {
             using (var dbContext = _dbContextFactory.CreateDbContext())
             {
-                var postEntity = await dbContext.Posts.FirstOrDefaultAsync(x => x.BlogId == blogId && x.Id == postId);
+                var postEntity = await dbContext.Posts
+                    .FirstOrDefaultAsync(x => x.BlogId == blogId && x.Id == postId);
                 return postEntity != null ? _mapper.Map<Post>(postEntity) : null;
             }
         }
 
-        public async Task<Guid> GetPostIdByTitleAsync(Guid blogId, Guid postId, string title)
+        public async Task<Guid> GetPostIdByTitleAsync(Guid blogId, string title)
         {
             using (var dbContext = _dbContextFactory.CreateDbContext())
             {
-                return await dbContext.Posts.Where(x => x.BlogId == blogId && x.Id == postId && x.Title == title).Select(x => x.Id).FirstOrDefaultAsync();
+                return await dbContext.Posts
+                    .Where(x => x.BlogId == blogId && x.Title == title)
+                    .Select(x => x.Id)
+                    .FirstOrDefaultAsync();
             }
         }
 
-        public async Task<Guid> GetPostIdBySlugAsync(Guid blogId, Guid postId, string slug)
+        public async Task<Guid> GetPostIdBySlugAsync(Guid blogId, string slug)
         {
             using (var dbContext = _dbContextFactory.CreateDbContext())
             {
-                return await dbContext.Posts.Where(x => x.BlogId == blogId && x.Id == postId && x.Slug == slug).Select(x => x.Id).FirstOrDefaultAsync();
+                return await dbContext.Posts
+                    .Where(x => x.BlogId == blogId && x.Slug == slug)
+                    .Select(x => x.Id)
+                    .FirstOrDefaultAsync();
             }
         }
 
@@ -58,7 +65,8 @@ namespace Weapsy.Blog.Data.Domain
         {
             using (var dbContext = _dbContextFactory.CreateDbContext())
             {
-                var postEntity = await dbContext.Posts.FirstOrDefaultAsync(x => x.BlogId == post.BlogId && x.Id == post.Id);
+                var postEntity = await dbContext.Posts
+                    .FirstOrDefaultAsync(x => x.BlogId == post.BlogId && x.Id == post.Id);
                 _mapper.Map(post, postEntity);
                 await dbContext.SaveChangesAsync();
             }

@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation.Results;
 using Moq;
 using NUnit.Framework;
 using Weapsy.Blog.Domain.Posts;
 using Weapsy.Blog.Domain.Posts.CommandHandlers;
+using Weapsy.Blog.Domain.Posts.CommandHandlers.Validators.Abstractions;
 using Weapsy.Blog.Domain.Posts.Commands;
-using Weapsy.Blog.Domain.Posts.Events;
 using Weapsy.Mediator.Domain;
 
 namespace Weapsy.Blog.Domain.Tests.Posts.CommandHandlers
@@ -16,19 +15,18 @@ namespace Weapsy.Blog.Domain.Tests.Posts.CommandHandlers
     public class RestorePostHandlerTests
     {
         private RestorePost _command;
-        private PostRestored _event;
         private Post _post;
         private Post _updatedPost;
-        private IEnumerable<IDomainEvent> _result;
+        private IAggregateRoot _result;
 
-        private Mock<IPostRepository> _postRepositoryMock;
+        private Mock<IPostRepository> _repositoryMock;
+        private Mock<IRestorePostValidator> _validatorMock;
         private IDomainCommandHandlerAsync<RestorePost> _commandHandler;
 
         [SetUp]
         public async Task Setup()
         {
-            _post = PostFactories.Post();
-            _post.Delete();
+            _post = PostFactories.DeletedPost();
 
             _command = new RestorePost
             {
@@ -36,25 +34,27 @@ namespace Weapsy.Blog.Domain.Tests.Posts.CommandHandlers
                 AggregateRootId = Guid.NewGuid()
             };
 
-            _postRepositoryMock = new Mock<IPostRepository>();
-            _postRepositoryMock
+            _repositoryMock = new Mock<IPostRepository>();
+            _repositoryMock
                 .Setup(x => x.GetByIdAsync(_command.BlogId, _command.AggregateRootId))
                 .ReturnsAsync(_post);
-            _postRepositoryMock
+            _repositoryMock
                 .Setup(x => x.UpdateAsync(It.IsAny<Post>()))
                 .Callback<Post>(p => _updatedPost = p)
                 .Returns(Task.CompletedTask);
 
-            _commandHandler = new RestorePostHandler(_postRepositoryMock.Object);
-            _result = await _commandHandler.HandleAsync(_command);
+            _validatorMock = new Mock<IRestorePostValidator>();
+            _validatorMock.Setup(x => x.Validate(_post)).Returns(new ValidationResult());
 
-            _event = _updatedPost.Events.OfType<PostRestored>().Single();
+            _commandHandler = new RestorePostHandler(_repositoryMock.Object, _validatorMock.Object);
+
+            _result = await _commandHandler.HandleAsync(_command);
         }
 
         [Test]
         public void ThrowsExceptionWhenPostIsNotFound()
         {
-            _postRepositoryMock
+            _repositoryMock
                 .Setup(x => x.GetByIdAsync(_command.BlogId, _command.AggregateRootId))
                 .ReturnsAsync((Post)null);
 
@@ -62,9 +62,9 @@ namespace Weapsy.Blog.Domain.Tests.Posts.CommandHandlers
         }
 
         [Test]
-        public void ReturnsEvents()
+        public void ReturnsPost()
         {
-            Assert.AreEqual(_event, _result.OfType<PostRestored>().Single());
+            Assert.AreEqual(_updatedPost, _result);
         }
     }
 }

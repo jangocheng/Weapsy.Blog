@@ -6,14 +6,14 @@ using Weapsy.Blog.Domain.Blogs.Rules;
 using Weapsy.Blog.Domain.Posts.Commands;
 using Weapsy.Blog.Domain.Posts.Rules;
 
-namespace Weapsy.Blog.Domain.Posts.CommandHandlers.Validators
+namespace Weapsy.Blog.Domain.Posts.CommandHandlers.Validators.Abstractions
 {
-    public abstract class PostDetailsValidatorBase<T> : AbstractValidator<T> where T : PostDetailsBase
+    public abstract class AbstractCommandValidator<T> : AbstractValidator<T> where T : PostDetailsBase
     {
         private readonly IPostRules _postRules;
         private readonly IBlogRules _blogRules;
 
-        protected PostDetailsValidatorBase(IPostRules postRules, IBlogRules blogRules)
+        protected AbstractCommandValidator(IPostRules postRules, IBlogRules blogRules)
         {
             _postRules = postRules;
             _blogRules = blogRules;
@@ -63,12 +63,12 @@ namespace Weapsy.Blog.Domain.Posts.CommandHandlers.Validators
 
         private async Task<bool> HaveUniqueTitle(PostDetailsBase command, string title, CancellationToken cancellationToken)
         {
-            return await _postRules.IsTitleUniqueAsync(command.BlogId, command.AggregateRootId, title);
+            return await _postRules.IsTitleUniqueAsync(command.BlogId, title);
         }
 
         private async Task<bool> HaveUniqueSlug(PostDetailsBase command, string slug, CancellationToken cancellationToken)
         {
-            return await _postRules.IsSlugUniqueAsync(command.BlogId, command.AggregateRootId, slug);
+            return await _postRules.IsSlugUniqueAsync(command.BlogId, slug);
         }
     }
 }

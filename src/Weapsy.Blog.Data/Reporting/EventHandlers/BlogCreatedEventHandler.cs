@@ -3,7 +3,7 @@ using Weapsy.Blog.Data.Caching;
 using Weapsy.Blog.Domain.Blogs.Events;
 using Weapsy.Mediator.Events;
 
-namespace Weapsy.Blog.Data.Reporting
+namespace Weapsy.Blog.Data.Reporting.EventHandlers
 {
     public class BlogCreatedEventHandler : IEventHandlerAsync<BlogCreated>
     {
@@ -18,7 +18,7 @@ namespace Weapsy.Blog.Data.Reporting
         {
             await Task.CompletedTask;
 
-            _cacheManager.Remove($"Blog|{@event.AggregateRootId}");
+            _cacheManager.Remove(CacheKeys.IndexCacheKey(@event.AggregateRootId));
         }
     }
 }

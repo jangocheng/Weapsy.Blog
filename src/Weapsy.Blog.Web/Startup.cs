@@ -8,6 +8,7 @@ using Weapsy.Blog.Data;
 using Weapsy.Blog.Data.Entities;
 using Weapsy.Blog.Web.Extensions;
 using Weapsy.Blog.Web.Services;
+using Weapsy.Mediator.Dependencies;
 using Weapsy.Mediator.EventStore.EF;
 
 namespace Weapsy.Blog.Web
@@ -32,7 +33,7 @@ namespace Weapsy.Blog.Web
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddWeapsyBlogIdentity(Configuration);
-            services.AddWeapsyMediatorWithEF(Configuration);
+            services.AddWeapsyMediatorWithEventStore(Configuration);
             services.AddWeapsyBlogWithEF(Configuration);
             services.AddWeapsyBlogAutoMapper();
             services.AddWeapsyBlogThemes();
@@ -42,9 +43,10 @@ namespace Weapsy.Blog.Web
         public void Configure(IApplicationBuilder app, 
             IHostingEnvironment env,
             BlogDbContext blogDbContext,
-            MediatorDbContext mediatorDbContext,
+            EventStoreDbContext eventStoreDbContext,
             UserManager<UserEntity> userManager, 
-            RoleManager<RoleEntity> roleManager)
+            RoleManager<RoleEntity> roleManager,
+            IResolver resolver)
         {
             if (env.IsDevelopment())
             {
@@ -64,17 +66,21 @@ namespace Weapsy.Blog.Web
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                    name: "area",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
             blogDbContext.Database.Migrate();
-            mediatorDbContext.Database.Migrate();
+            eventStoreDbContext.Database.Migrate();
 
             //app.EnsureMediatorDbCreated();
             //app.EnsureBlogDbCreated();
-            app.EnsureDefaultBlogCreated();
-            app.EnsureDefaultUserCreated(userManager, roleManager);
+            app.SeedBlog(Configuration);
+            app.SeedIdentity(userManager, roleManager, Configuration);
             app.UseTheme();
         }
     }

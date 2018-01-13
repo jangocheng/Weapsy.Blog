@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using FluentValidation;
+using Weapsy.Blog.Domain.Posts.CommandHandlers.Validators.Abstractions;
 using Weapsy.Blog.Domain.Posts.Commands;
 using Weapsy.Blog.Domain.Posts.Events;
 using Weapsy.Mediator.Domain;
@@ -18,66 +18,45 @@ namespace Weapsy.Blog.Domain.Posts
         public PostType Type { get; private set; }
         public PostStatus Status { get; private set; }
         public DateTime StatusTimeStamp { get; private set; }
-        
+
         public Post()
         {
         }
 
-        public Post(CreatePost command, IValidator<CreatePost> validator) : base(command.AggregateRootId)
+        public Post(CreatePost command, ICreatePostValidator validator) : base(command.AggregateRootId)
         {
-            validator.Validate(command);
+            validator.ValidateCommand(command);
             AddEvent(command.ToEvent());
         }
 
-        public void Update(UpdatePost command, IValidator<UpdatePost> validator)
+        public void Update(UpdatePost command, IUpdatePostValidator validator)
         {
-            validator.Validate(command);
+            validator.ValidateCommand(command);
             AddEvent(command.ToEvent());
         }
 
-        public void Publish()
+        public void Publish(PublishPost command, IPublishPostValidator validator)
         {
-            switch (Status)
-            {
-                case PostStatus.Published:
-                    throw new ApplicationException("Post is already published.");
-                case PostStatus.Deleted:
-                    throw new ApplicationException("Post is deleted.");
-            }
-
-            if (string.IsNullOrWhiteSpace(Content))
-                throw new ApplicationException("Content is required.");
-
-            AddEvent(new PostPublished { AggregateRootId = Id });
+            validator.ValidateInvariants(this);
+            AddEvent(command.ToEvent());
         }
 
-        public void Withdraw()
+        public void Withdraw(WithdrawPost command, IWithdrawPostValidator validator)
         {
-            switch (Status)
-            {
-                case PostStatus.Draft:
-                    throw new ApplicationException("Post is not published.");
-                case PostStatus.Deleted:
-                    throw new ApplicationException("Post is deleted.");
-            }
-
-            AddEvent(new PostWithdrew { AggregateRootId = Id });
+            validator.ValidateInvariants(this);
+            AddEvent(command.ToEvent());
         }
 
-        public void Delete()
+        public void Delete(DeletePost command, IDeletePostValidator validator)
         {
-            if (Status == PostStatus.Deleted)
-                throw new ApplicationException("Post is already deleted.");
-
-            AddEvent(new PostDeleted { AggregateRootId = Id });
+            validator.ValidateInvariants(this);
+            AddEvent(command.ToEvent());
         }
 
-        public void Restore()
+        public void Restore(RestorePost command, IRestorePostValidator validator)
         {
-            if (Status != PostStatus.Deleted)
-                throw new ApplicationException("Post is not deleted.");
-
-            AddEvent(new PostRestored { AggregateRootId = Id });
+            validator.ValidateInvariants(this);
+            AddEvent(command.ToEvent());
         }
 
         private void Apply(PostCreated @event)

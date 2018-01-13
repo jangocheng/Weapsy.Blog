@@ -1,7 +1,7 @@
-﻿@{
-    ViewData["Title"] = "About";
-}
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
+﻿@model Weapsy.Blog.Reporting.Models.PostViewModel
 
-<p>Use this area to provide additional information.</p>
+@{
+    ViewData["Title"] = Model.PostTitle;
+}
+
+<h3>@Model.PostContent</h3>

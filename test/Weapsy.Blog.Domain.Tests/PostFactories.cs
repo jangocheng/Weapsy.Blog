@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using FluentValidation;
 using FluentValidation.Results;
 using Moq;
 using Weapsy.Blog.Domain.Posts;
+using Weapsy.Blog.Domain.Posts.CommandHandlers.Validators.Abstractions;
 using Weapsy.Blog.Domain.Posts.Commands;
-using Weapsy.Blog.Domain.Posts.Events;
 
 namespace Weapsy.Blog.Domain.Tests
 {
@@ -27,11 +26,6 @@ namespace Weapsy.Blog.Domain.Tests
             };
         }
 
-        public static PostCreated PostCreatedEvent()
-        {
-            return CreatePostCommand().ToEvent();
-        }
-
         public static UpdatePost UpdatePostCommand()
         {
             return new UpdatePost
@@ -48,17 +42,68 @@ namespace Weapsy.Blog.Domain.Tests
             };
         }
 
-        public static PostUpdated PostUpdatedEvent()
+        public static PublishPost PublishPostCommand()
         {
-            return UpdatePostCommand().ToEvent();
+            return new PublishPost
+            {
+                AggregateRootId = Guid.NewGuid(),
+                BlogId = Guid.NewGuid()
+            };
+        }
+
+        public static WithdrawPost WithdrawPostCommand()
+        {
+            return new WithdrawPost
+            {
+                AggregateRootId = Guid.NewGuid(),
+                BlogId = Guid.NewGuid()
+            };
+        }
+
+        public static DeletePost DeletePostCommand()
+        {
+            return new DeletePost
+            {
+                AggregateRootId = Guid.NewGuid(),
+                BlogId = Guid.NewGuid()
+            };
+        }
+
+        public static RestorePost RestorePostCommand()
+        {
+            return new RestorePost
+            {
+                AggregateRootId = Guid.NewGuid(),
+                BlogId = Guid.NewGuid()
+            };
         }
 
         public static Post Post()
         {
             var command = CreatePostCommand();
-            var validatorMock = new Mock<IValidator<CreatePost>>();
+            var validatorMock = new Mock<ICreatePostValidator>();
             validatorMock.Setup(x => x.Validate(command)).Returns(new ValidationResult());
             return new Post(command, validatorMock.Object);
+        }
+
+        public static Post DeletedPost()
+        {
+            var post = Post();
+            var command = DeletePostCommand();
+            var validatorMock = new Mock<IDeletePostValidator>();
+            validatorMock.Setup(x => x.Validate(post)).Returns(new ValidationResult());
+            post.Delete(command, validatorMock.Object);
+            return post;
+        }
+
+        public static Post PublishedPost()
+        {
+            var post = Post();
+            var command = PublishPostCommand();
+            var validatorMock = new Mock<IPublishPostValidator>();
+            validatorMock.Setup(x => x.Validate(post)).Returns(new ValidationResult());
+            post.Publish(command, validatorMock.Object);
+            return post;
         }
     }
 }

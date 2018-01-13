@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using FluentValidation;
+using Weapsy.Blog.Domain.Posts.CommandHandlers.Validators.Abstractions;
 using Weapsy.Blog.Domain.Posts.Commands;
 using Weapsy.Mediator.Domain;
 
@@ -10,15 +9,16 @@ namespace Weapsy.Blog.Domain.Posts.CommandHandlers
     public class UpdatePostHandler : IDomainCommandHandlerAsync<UpdatePost>
     {
         private readonly IPostRepository _postRepository;
-        private readonly IValidator<UpdatePost> _validator;
+        private readonly IUpdatePostValidator _validator;
 
-        public UpdatePostHandler(IPostRepository postRepository, IValidator<UpdatePost> validator)
+        public UpdatePostHandler(IPostRepository postRepository,
+            IUpdatePostValidator validator)
         {
             _postRepository = postRepository;
-            _validator = validator;           
+            _validator = validator;
         }
 
-        public async Task<IEnumerable<IDomainEvent>> HandleAsync(UpdatePost command)
+        public async Task<IAggregateRoot> HandleAsync(UpdatePost command)
         {
             var post = await _postRepository.GetByIdAsync(command.BlogId, command.AggregateRootId);
 
@@ -29,7 +29,7 @@ namespace Weapsy.Blog.Domain.Posts.CommandHandlers
 
             await _postRepository.UpdateAsync(post);
 
-            return post.Events;
+            return post;
         }
     }
 }

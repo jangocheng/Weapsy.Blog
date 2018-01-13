@@ -8,22 +8,22 @@ namespace Weapsy.Blog.Web
 {
     public static class Factories
     {
-        public static CreateBlog DefaultCreateBlogCommand()
+        public static CreateBlog DefaultCreateBlogCommand(Guid blogId)
         {
             return new CreateBlog
             {
-                AggregateRootId = Constants.DefaultBlogId,
+                AggregateRootId = blogId,
                 Title = "My Blog",
                 Theme = Constants.DefaultTheme
             };
         }
 
-        public static CreatePost DefaultCreatePostCommand()
+        public static CreatePost DefaultCreatePostCommand(Guid blogId)
         {
             return new CreatePost
             {
                 AggregateRootId = Guid.NewGuid(),
-                BlogId = Constants.DefaultBlogId,
+                BlogId = blogId,
                 Title = "First Post",
                 Content = "Content...",
                 Slug = "first-post",

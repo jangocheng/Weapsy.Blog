@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +11,8 @@ using Weapsy.Blog.Data.Extensions;
 using Weapsy.Blog.Data.Reporting;
 using Weapsy.Blog.Domain.Blogs.Commands;
 using Weapsy.Blog.Reporting.Queries;
-using Weapsy.Mediator.EventStore.EF.Extensions;
+using Weapsy.Blog.Web.Configuration;
+using Weapsy.Mediator.EventStore.EF.SqlServer;
 using Weapsy.Mediator.Extensions;
 
 // ReSharper disable InconsistentNaming
@@ -31,20 +31,27 @@ namespace Weapsy.Blog.Web.Extensions
             return services;
         }
 
+        public static IServiceCollection AddWeapsyBlogOptions(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<BlogSettings>(configuration.GetSection(Constants.ConfigBlogSettings));
+
+            return services;
+        }
+
         public static IServiceCollection AddWeapsyBlogWithEF(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddWeapsyBlog();
+            services.AddWeapsyBlogOptions(configuration);
             services.AddWeapsyBlogEFOptions(configuration);
             services.AddWeapsyBlogEF(configuration);
 
             return services;
         }
 
-        public static IServiceCollection AddWeapsyMediatorWithEF(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddWeapsyMediatorWithEventStore(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddWeapsyMediator(typeof(CreateBlog), typeof(GetBlogSettings));
-            services.AddWeapsyMediatorEFOptions(configuration);
-            services.AddWeapsyMediatorEF(configuration);
+            services.AddWeapsyMediatorEventStore(configuration);
 
             return services;
         }
@@ -74,7 +81,7 @@ namespace Weapsy.Blog.Web.Extensions
         public static IServiceCollection AddWeapsyBlogIdentity(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<BlogDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString(Weapsy.Blog.Data.Constants.ConfigBlogConnection)));
+                options.UseSqlServer(configuration.GetConnectionString(Data.Constants.ConfigBlogConnection)));
 
             services.AddIdentity<UserEntity, RoleEntity>()
                 .AddEntityFrameworkStores<BlogDbContext>()

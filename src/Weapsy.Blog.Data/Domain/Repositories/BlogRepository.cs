@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Weapsy.Blog.Data.Entities;
 using Weapsy.Blog.Domain.Blogs;
 
-namespace Weapsy.Blog.Data.Domain
+namespace Weapsy.Blog.Data.Domain.Repositories
 {
     public class BlogRepository : IBlogRepository
     {
@@ -32,7 +32,10 @@ namespace Weapsy.Blog.Data.Domain
         {
             using (var dbContext = _dbContextFactory.CreateDbContext())
             {
-                return await dbContext.Blogs.Where(x => x.Title == title).Select(x => x.Id).FirstOrDefaultAsync();
+                return await dbContext.Blogs
+                    .Where(x => x.Title == title)
+                    .Select(x => x.Id)
+                    .FirstOrDefaultAsync();
             }
         }
 

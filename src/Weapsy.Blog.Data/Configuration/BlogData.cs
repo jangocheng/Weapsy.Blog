@@ -1,6 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-
-namespace Weapsy.Blog.Data.Configuration
+﻿namespace Weapsy.Blog.Data.Configuration
 {
     public class BlogData
     {

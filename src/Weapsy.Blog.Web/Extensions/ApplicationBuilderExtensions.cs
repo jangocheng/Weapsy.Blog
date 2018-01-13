@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Weapsy.Blog.Data.Entities;
@@ -19,26 +20,29 @@ namespace Weapsy.Blog.Web.Extensions
 {
     public static class ApplicationBuilderExtensions
     {
-        public static IApplicationBuilder EnsureDefaultBlogCreated(this IApplicationBuilder app)
+        public static IApplicationBuilder SeedBlog(this IApplicationBuilder app, IConfiguration configuration)
         {
             var mediator = app.ApplicationServices.GetRequiredService<IMediator>();
 
-            var query = new GetBlogSettings { BlogId = Constants.DefaultBlogId };
+            var defaultBlogIdConfig = configuration.GetSection(Constants.ConfigBlogSettings)[Constants.ConfigDefaultBlogId];
+            var defaultBlogId = Guid.Parse(defaultBlogIdConfig);
+
+            var query = new GetBlogSettings { BlogId = defaultBlogId };
             var blog = mediator.GetResult<GetBlogSettings, BlogSettings>(query);
 
             if (blog == null)
             {
-                mediator.SendAndPublishAsync<CreateBlog, Domain.Blogs.Blog>(Factories.DefaultCreateBlogCommand());
-                mediator.SendAndPublishAsync<CreatePost, Post>(Factories.DefaultCreatePostCommand());
+                mediator.SendAndPublishAsync<CreateBlog, Domain.Blogs.Blog>(Factories.DefaultCreateBlogCommand(defaultBlogId));
+                mediator.SendAndPublishAsync<CreatePost, Post>(Factories.DefaultCreatePostCommand(defaultBlogId));
             }
 
             return app;
         }
 
-        public static IApplicationBuilder EnsureDefaultUserCreated(this IApplicationBuilder app, UserManager<UserEntity> userManager, RoleManager<RoleEntity> roleManager)
+        public static IApplicationBuilder SeedIdentity(this IApplicationBuilder app, UserManager<UserEntity> userManager, RoleManager<RoleEntity> roleManager, IConfiguration configuration)
         {
-            //var userManager = app.ApplicationServices.GetRequiredService<UserManager<IdentityUser>>();
-            //var roleManager = app.ApplicationServices.GetRequiredService<RoleManager<IdentityRole>>();
+            //var userManager = app.ApplicationServices.GetRequiredService<UserManager<UserEntity>>();
+            //var roleManager = app.ApplicationServices.GetRequiredService<RoleManager<RoleEntity>>();
 
             if (!roleManager.RoleExistsAsync(Constants.AdministratorRoleName).GetAwaiter().GetResult())
             {
@@ -51,7 +55,8 @@ namespace Weapsy.Blog.Web.Extensions
 
             if (userManager.Users.CountAsync().GetAwaiter().GetResult() == 0)
             {
-                var user = new UserEntity { UserName = Constants.DefaultEmailAddress, Email = Constants.DefaultEmailAddress };
+                var defaultEmailAddress = configuration.GetSection(Constants.ConfigBlogSettings)[Constants.ConfigDefaultEmailAddress];
+                var user = new UserEntity { UserName = defaultEmailAddress, Email = defaultEmailAddress };
                 userManager.CreateAsync(user, Constants.DefaultPassword).GetAwaiter().GetResult();
                 userManager.AddToRoleAsync(user, Constants.AdministratorRoleName).GetAwaiter().GetResult();
             }

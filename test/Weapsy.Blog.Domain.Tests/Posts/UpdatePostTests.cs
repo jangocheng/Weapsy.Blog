@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using FluentValidation;
 using FluentValidation.Results;
 using Moq;
 using NUnit.Framework;
 using Weapsy.Blog.Domain.Posts;
+using Weapsy.Blog.Domain.Posts.CommandHandlers.Validators.Abstractions;
 using Weapsy.Blog.Domain.Posts.Commands;
 using Weapsy.Blog.Domain.Posts.Events;
 
@@ -13,7 +13,7 @@ namespace Weapsy.Blog.Domain.Tests.Posts
     public class UpdatePostTests
     {
         private UpdatePost _command;
-        private Mock<IValidator<UpdatePost>> _validatorMock;
+        private Mock<IUpdatePostValidator> _validatorMock;
         private Post _post;
         private PostUpdated _event;
 
@@ -22,7 +22,7 @@ namespace Weapsy.Blog.Domain.Tests.Posts
         {
             _post = PostFactories.Post();
             _command = PostFactories.UpdatePostCommand();
-            _validatorMock = new Mock<IValidator<UpdatePost>>();
+            _validatorMock = new Mock<IUpdatePostValidator>();
             _validatorMock.Setup(x => x.Validate(_command)).Returns(new ValidationResult());
             _post.Update(_command, _validatorMock.Object);
             _event = _post.Events.OfType<PostUpdated>().Single();
@@ -32,6 +32,12 @@ namespace Weapsy.Blog.Domain.Tests.Posts
         public void ValidatesCommand()
         {
             _validatorMock.Verify(x => x.Validate(_command), Times.Once);
+        }
+
+        [Test]
+        public void AddsBlogIdToEvent()
+        {
+            Assert.AreEqual(_command.BlogId, _event.BlogId);
         }
 
         [Test]

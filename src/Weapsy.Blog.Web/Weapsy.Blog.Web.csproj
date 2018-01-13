@@ -17,12 +17,12 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" PrivateAssets="All" />
     <PackageReference Include="Scrutor" Version="2.1.2" />
-    <PackageReference Include="Weapsy.Mediator" Version="1.4.0" />
-    <PackageReference Include="Weapsy.Mediator.EventStore.EF" Version="1.4.0" />
+    <PackageReference Include="Weapsy.Mediator" Version="1.5.1" />
+    <PackageReference Include="Weapsy.Mediator.EventStore.EF.SqlServer" Version="1.5.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +35,10 @@
     <ProjectReference Include="..\Weapsy.Blog.Data\Weapsy.Blog.Data.csproj" />
     <ProjectReference Include="..\Weapsy.Blog.Domain\Weapsy.Blog.Domain.csproj" />
     <ProjectReference Include="..\Weapsy.Blog.Reporting\Weapsy.Blog.Reporting.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Views\" />
   </ItemGroup>
 
 </Project>
